@@ -4250,7 +4250,7 @@ class BillboardAsset(NamedObject):
 
 @unitypy_define
 class BlobObject(NamedObject):
-    m_BlobData: List[str]
+    m_BlobData: List[int]
     m_BlobTypeHash: int
     m_Name: str
     m_NestedBlobObjectReferenceOffsets: List[int]
@@ -4371,7 +4371,7 @@ class Font(NamedObject):
     m_ConvertCase: int
     m_DefaultMaterial: PPtr[Material]
     m_DefaultStyle: int
-    m_FontData: List[str]
+    m_FontData: List[int]
     m_FontNames: List[str]
     m_FontSize: float
     m_KerningValues: List[Tuple[Tuple[int, int], float]]
@@ -6817,12 +6817,12 @@ class AudioMixerConstant:
     exposedParameterIndices: List[int]
     exposedParameterNames: List[int]
     groupGUIDs: List[GUID]
-    groupNameBuffer: List[str]
+    groupNameBuffer: List[int]
     groups: List[GroupConstant]
     numSideChainBuffers: int
-    pluginEffectNameBuffer: List[str]
+    pluginEffectNameBuffer: List[int]
     snapshotGUIDs: List[GUID]
-    snapshotNameBuffer: List[str]
+    snapshotNameBuffer: List[int]
     snapshots: List[SnapshotConstant]
     groupConnections: Optional[List[GroupConnection]] = None
 
