@@ -52,7 +52,7 @@ def generate_node(class_info: TpkUnityClass) -> TypeTreeNode:
     assert class_info.ReleaseRootNode is not None, "Class {} has no ReleaseRootNode".format(class_info)
 
     nodes = []
-    NODES = TPKTYPETREE.NodeBuffer.Nodes
+    NODES = TPKTYPETREE.NodeBuffer
     stack = [(class_info.ReleaseRootNode, 0)]
     index = 0
     while stack:
@@ -65,8 +65,8 @@ def generate_node(class_info: TpkUnityClass) -> TypeTreeNode:
                 m_Version=node.Version,
                 m_MetaFlag=node.MetaFlag,
                 m_Level=level,
-                m_Type=TPKTYPETREE.StringBuffer.Strings[node.TypeName],
-                m_Name=TPKTYPETREE.StringBuffer.Strings[node.Name],
+                m_Type=TPKTYPETREE.StringBuffer[node.TypeName],
+                m_Name=TPKTYPETREE.StringBuffer[node.Name],
             )
         )
         stack = [(node_id, level + 1) for node_id in node.SubNodes] + stack
@@ -222,7 +222,7 @@ class TpkTypeTreeBlob(TpkDataBlob):
     def __init__(self, stream: BytesIO) -> None:
         (self.CreationTime,) = INT64.unpack(stream.read(INT64.size))
         (versionCount,) = INT32.unpack(stream.read(INT32.size))
-        self.Versions = [read_version(stream) for _ in range(versionCount)]
+        self.Versions = read_versions(stream, versionCount)
         (classCount,) = INT32.unpack(stream.read(INT32.size))
         self.ClassInformation = {x.ID: x for x in (TpkClassInformation(stream) for _ in range(classCount))}
         self.CommonString = TpkCommonString(stream)
@@ -303,7 +303,9 @@ class TpkUnityClass:
             "ReleaseRootNode": self.ReleaseRootNode,
         }
 
-    def __eq__(self, other: TpkUnityClass) -> bool:
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, TpkUnityClass):
+            return False
         return self.to_dict() == other.to_dict()
 
     def __hash__(self) -> int:
@@ -318,36 +320,22 @@ class TpkUnityClass:
         )
 
 
-class TpkClassInformation:
-    __slots__ = ("ID", "Classes")
+class TpkClassInformation(List[Tuple[UnityVersion, Optional[TpkUnityClass]]]):
     ID: int
-    # TODO - might want to use dict
-    Classes: List[Tuple[UnityVersion, Optional[TpkUnityClass]]]
 
     def __init__(self, stream: BytesIO) -> None:
         (self.ID,) = INT32.unpack(stream.read(INT32.size))
         (count,) = INT32.unpack(stream.read(INT32.size))
-        self.Classes = [
+        self.extend(
             (
                 read_version(stream),
                 TpkUnityClass(stream) if stream.read(1)[0] else None,
             )
             for _ in range(count)
-        ]
+        )
 
     def getVersionedClass(self, version: UnityVersion) -> Optional[TpkUnityClass]:
-        return get_item_for_version(version, self.Classes)
-
-
-class TpkUnityNodeBuffer:
-    Nodes: List[TpkUnityNode]
-
-    def __init__(self, stream: BytesIO) -> None:
-        (count,) = INT32.unpack(stream.read(INT32.size))
-        self.Nodes = [TpkUnityNode(stream) for _ in range(count)]
-
-    def __getitem__(self, index: int) -> TpkUnityNode:
-        return self.Nodes[index]
+        return get_item_for_version(version, self)
 
 
 class TpkUnityNode:
@@ -383,12 +371,20 @@ class TpkUnityNode:
         SubNodeStruct = Struct(f"<{count}H")
         self.SubNodes = list(SubNodeStruct.unpack(stream.read(SubNodeStruct.size)))
 
-    def __eq__(self, other: TpkUnityNode) -> bool:
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, TpkUnityNode):
+            return False
         return self.__dict__ == other.__dict__
 
     def __hash__(self) -> int:
         # TODO
         return hash(self.__dict__)
+
+
+class TpkUnityNodeBuffer(List[TpkUnityNode]):
+    def __init__(self, stream: BytesIO) -> None:
+        (count,) = INT32.unpack(stream.read(INT32.size))
+        self.extend(TpkUnityNode(stream) for _ in range(count))
 
 
 ######################################################################################
@@ -398,16 +394,10 @@ class TpkUnityNode:
 ######################################################################################
 
 
-class TpkStringBuffer:
-    __slots__ = "Strings"
-    Strings: List[str]
-
+class TpkStringBuffer(List[str]):
     def __init__(self, stream: BytesIO) -> None:
-        self.Strings = [read_string(stream) for _ in range(INT32.unpack(stream.read(INT32.size))[0])]
-
-    @property
-    def Count(self) -> int:
-        return len(self.Strings)
+        count = INT32.unpack(stream.read(INT32.size))[0]
+        self.extend(read_string(stream) for _ in range(count))
 
 
 class TpkCommonString:
@@ -423,7 +413,7 @@ class TpkCommonString:
         self.StringBufferIndices = indicesStruct.unpack(stream.read(indicesStruct.size))
 
     def GetStrings(self, buffer: TpkStringBuffer) -> List[str]:
-        return [buffer.Strings[i] for i in self.StringBufferIndices]
+        return [buffer[i] for i in self.StringBufferIndices]
 
     def GetCount(self, exactVersion: UnityVersion) -> int:
         return get_item_for_version(exactVersion, self.VersionInformation)
@@ -462,6 +452,11 @@ def read_data(stream: BytesIO) -> bytes:
 
 def read_version(stream: BytesIO) -> UnityVersion:
     return UnityVersion(UINT64.unpack(stream.read(UINT64.size))[0])
+
+
+def read_versions(stream: BytesIO, count: int) -> List[UnityVersion]:
+    struct = Struct(f"<{count}Q")
+    return [UnityVersion(x) for x in struct.unpack(stream.read(struct.size))]
 
 
 def get_item_for_version(exactVersion: UnityVersion, items: List[Tuple[UnityVersion, T]]) -> T:

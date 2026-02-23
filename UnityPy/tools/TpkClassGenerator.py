@@ -13,8 +13,8 @@ sys.path.append(ROOT)
 from UnityPy.helpers.Tpk import TPKTYPETREE, TpkUnityNode  # noqa: E402
 from UnityPy.helpers.TypeTreeNode import clean_name  # noqa: E402
 
-NODES = TPKTYPETREE.NodeBuffer.Nodes
-STRINGS = TPKTYPETREE.StringBuffer.Strings
+NODES = TPKTYPETREE.NodeBuffer
+STRINGS = TPKTYPETREE.StringBuffer
 
 BASE_TYPE_MAP = {
     "char": "str",
@@ -51,15 +51,15 @@ from typing import List, Optional, Tuple, TypeVar, Union
 from attrs import define as attrs_define
 
 from .math import (
-  ColorRGBA,
-  Matrix3x4f,
-  Matrix4x4f,
-  Quaternionf,
-  Vector2f,
-  Vector3f,
-  Vector4f,
-  float3,
-  float4,
+    ColorRGBA,
+    Matrix3x4f,
+    Matrix4x4f,
+    Quaternionf,
+    Vector2f,
+    Vector3f,
+    Vector4f,
+    float3,
+    float4,
 )
 from .Object import Object
 from .PPtr import PPtr
@@ -68,25 +68,25 @@ T = TypeVar("T")
 
 
 def unitypy_define(cls: T) -> T:
-  \"\"\"
-  A hacky solution to bypass multiple problems related to attrs and inheritance.
+    \"\"\"
+    A hacky solution to bypass multiple problems related to attrs and inheritance.
 
-  The class inheritance is very lax and based on the typetrees.
-  Some of the child classes might not have the same attributes as the parent class,
-  which would make type-hinting more tricky, and breaks attrs.define.
+    The class inheritance is very lax and based on the typetrees.
+    Some of the child classes might not have the same attributes as the parent class,
+    which would make type-hinting more tricky, and breaks attrs.define.
 
-  Therefore this function bypasses the issue
-  by redefining the bases for problematic classes for the attrs.define call.
-  \"\"\"
-  bases = cls.__bases__
-  if bases[0] in (object, Object, ABC):
-    cls = attrs_define(cls, slots=True, unsafe_hash=True)
-  else:
-    cls.__bases__ = (Object,)
-    cls = attrs_define(cls, slots=False, unsafe_hash=True)
-    cls.__bases__ = bases
-  return cls
-"""[0:]
+    Therefore this function bypasses the issue
+    by redefining the bases for problematic classes for the attrs.define call.
+    \"\"\"
+    bases = cls.__bases__
+    if bases[0] in (object, Object, ABC):
+        cls = attrs_define(cls, slots=True, unsafe_hash=True)
+    else:
+        cls.__bases__ = (Object,)
+        cls = attrs_define(cls, slots=False, unsafe_hash=True)
+        cls.__bases__ = bases
+    return cls
+"""[1:]
 
 # LIST_BASE_TYPE_MAP = {
 #     "short": "np.int16",
@@ -143,9 +143,9 @@ class NodeClassField:
             typ = f"Union[{', '.join(self.types)}]"
 
         if self.optional:
-            return f"  {self.clean_name}: Optional[{typ}] = None"
+            return f"    {self.clean_name}: Optional[{typ}] = None"
         else:
-            return f"  {self.clean_name}: {typ}"
+            return f"    {self.clean_name}: {typ}"
 
     @property
     def clean_name(self) -> str:
@@ -180,7 +180,7 @@ class NodeClass:
         parentsString = f"({', '.join(parents)})" if parents else ""
 
         if len(self.fields) == 0:
-            field_strings = ["  pass"]
+            field_strings = ["    pass"]
         else:
             field_strings = map(
                 NodeClassField.generate_str,
@@ -306,7 +306,7 @@ def generate_field_type(node_id: int, node: Optional[TpkUnityNode] = None) -> st
     return res
 
 
-def main():
+def generate_classes():
     main_classes: Set[str] = set()
     deps: Dict[str, List[str]] = {}
 
@@ -315,7 +315,7 @@ def main():
         base = None
         cls_name: Optional[str] = None
 
-        for _version, unity_class in class_info.Classes:
+        for _version, unity_class in class_info:
             if unity_class is None:
                 continue
             cls_name = STRINGS[unity_class.Name]
@@ -358,12 +358,12 @@ def main():
             names.add(name)
             i += 1
 
-    fp = os.path.join(ROOT, "UnityPy", "classes", "generated.py")
+    fp = os.path.join(ROOT, "classes", "generated.py")
     with open(fp, "w", encoding="utf8") as f:
         f.write(GENERATED_HEADER)
         f.write("\n\n")
 
-        f.write("\n\n".join(cls.generate_str() for cls in map(CLASS_CACHE_NAME.__getitem__, sorted_classes)))
+        f.write("\n\n\n".join(cls.generate_str() for cls in map(CLASS_CACHE_NAME.__getitem__, sorted_classes)))
         f.write("\n")
 
 
@@ -371,6 +371,6 @@ if __name__ == "__main__":
     import time
 
     t1 = time.time_ns()
-    main()
+    generate_classes()
     t2 = time.time_ns()
     print(t2 - t1 / 10**9)
