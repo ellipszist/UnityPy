@@ -3,14 +3,14 @@ from __future__ import annotations
 import io
 import os
 from gzip import GzipFile
-from typing import List, Optional, Tuple, Union
+from typing import BinaryIO, List, Optional, Tuple, Union
 
 from .. import files
 from ..enums import FileType
 from ..streams import EndianBinaryReader
 from .CompressionHelper import BROTLI_MAGIC, GZIP_MAGIC
 
-FileSourceType = Union[str, bytes, bytearray, io.IOBase, EndianBinaryReader]
+FileSourceType = Union[str, bytes, bytearray, io.IOBase, EndianBinaryReader, BinaryIO]
 
 
 def file_name_without_extension(file_name: str) -> str:

@@ -291,7 +291,7 @@ class Environment:
                 data = self._load_split_file(basepath)
                 path = basepath
             else:
-                data = open_f(path).read()
+                data = open_f(path)
             self.load_file(data, name=path)
 
     def find_file(self, name: str, is_dependency: bool = True) -> Union[File, None]:
