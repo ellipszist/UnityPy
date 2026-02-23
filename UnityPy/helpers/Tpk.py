@@ -6,6 +6,7 @@ from io import BytesIO
 from struct import Struct
 from typing import Any, Dict, List, Optional, Tuple, TypeVar
 
+from .CompressionHelper import decompress_lzma
 from .TypeTreeHelper import TypeTreeNode
 from .UnityVersion import UnityVersion
 
@@ -17,7 +18,7 @@ NODES_CACHE: Dict[TpkUnityClass, TypeTreeNode] = {}
 
 
 def init():
-    with open_binary("UnityPy.resources", "uncompressed.tpk") as f:
+    with open_binary("UnityPy.resources", "lzma.tpk") as f:
         data = f.read()
 
     global TPKTYPETREE
@@ -172,9 +173,7 @@ class TpkFile:
             decompressed = lz4.block.decompress(self.CompressedBytes, self.UncompressedSize)
 
         elif self.CompressionType == TpkCompressionType.Lzma:
-            import lzma
-
-            decompressed = lzma.decompress(self.CompressedBytes)
+            decompressed = decompress_lzma(self.CompressedBytes)
 
         elif self.CompressionType == TpkCompressionType.Brotli:
             import brotli
