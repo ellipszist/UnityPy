@@ -17,7 +17,7 @@ NODES = TPKTYPETREE.NodeBuffer
 STRINGS = TPKTYPETREE.StringBuffer
 
 BASE_TYPE_MAP = {
-    "char": "int", # used for byte data
+    "char": "int",  # used for byte data
     "short": "int",
     "int": "int",
     "long long": "int",
