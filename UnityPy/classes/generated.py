@@ -184,7 +184,7 @@ class Animation(Behaviour):
 class Animator(Behaviour):
     m_ApplyRootMotion: bool
     m_Avatar: PPtr[Avatar]
-    m_Controller: Union[PPtr[RuntimeAnimatorController], PPtr[AnimatorController]]
+    m_Controller: Union[PPtr[AnimatorController], PPtr[RuntimeAnimatorController]]
     m_CullingMode: int
     m_Enabled: int
     m_GameObject: PPtr[GameObject]
@@ -273,7 +273,7 @@ class AudioSource(AudioBehaviour):
     Spatialize: Optional[bool] = None
     SpatializePostEffects: Optional[bool] = None
     m_ExtensionPropertyValues: Optional[List[ExtensionPropertyValue]] = None
-    m_Resource: Optional[Union[PPtr[Object], PPtr[AudioResource]]] = None
+    m_Resource: Optional[Union[PPtr[AudioResource], PPtr[Object]]] = None
     reverbZoneMixCustomCurve: Optional[AnimationCurve] = None
 
 
@@ -306,7 +306,7 @@ class AudioDistortionFilter(AudioFilter):
 @unitypy_define
 class AudioEchoFilter(AudioFilter):
     m_DecayRatio: float
-    m_Delay: Union[int, float]
+    m_Delay: Union[float, int]
     m_DryMix: float
     m_Enabled: int
     m_GameObject: PPtr[GameObject]
@@ -499,8 +499,8 @@ class Cloth(Behaviour):
     m_SelfCollisionDistance: Optional[float] = None
     m_SelfCollisionStiffness: Optional[float] = None
     m_SleepThreshold: Optional[float] = None
-    m_SolverFrequency: Optional[Union[int, float]] = None
-    m_SphereColliders: Optional[Union[List[Tuple[PPtr[SphereCollider], PPtr[SphereCollider]]], List[ClothSphereColliderPair]]] = None
+    m_SolverFrequency: Optional[Union[float, int]] = None
+    m_SphereColliders: Optional[Union[List[ClothSphereColliderPair], List[Tuple[PPtr[SphereCollider], PPtr[SphereCollider]]]]] = None
     m_StretchingStiffness: Optional[float] = None
     m_UseContinuousCollision: Optional[bool] = None
     m_UseGravity: Optional[bool] = None
@@ -1136,7 +1136,7 @@ class FrictionJoint2D(AnchoredJoint2D):
 @unitypy_define
 class HingeJoint2D(AnchoredJoint2D):
     m_Anchor: Vector2f
-    m_AngleLimits: Union[JointAngleLimits2D, JointAngleLimit2D]
+    m_AngleLimits: Union[JointAngleLimit2D, JointAngleLimits2D]
     m_ConnectedAnchor: Vector2f
     m_ConnectedRigidBody: PPtr[Rigidbody2D]
     m_Enabled: int
@@ -1577,7 +1577,7 @@ class VisualEffect(Behaviour):
     m_Enabled: int
     m_GameObject: PPtr[GameObject]
     m_PropertySheet: VFXPropertySheetSerializedBase
-    m_ResetSeedOnPlay: Union[int, bool]
+    m_ResetSeedOnPlay: Union[bool, int]
     m_StartSeed: int
     m_AllowInstancing: Optional[int] = None
     m_InitialEventName: Optional[str] = None
@@ -1623,7 +1623,7 @@ class BoxCollider(Collider):
     m_Enabled: bool
     m_GameObject: PPtr[GameObject]
     m_IsTrigger: bool
-    m_Material: Union[PPtr[PhysicsMaterial], PPtr[PhysicMaterial]]
+    m_Material: Union[PPtr[PhysicMaterial], PPtr[PhysicsMaterial]]
     m_Size: Vector3f
     m_ExcludeLayers: Optional[BitField] = None
     m_IncludeLayers: Optional[BitField] = None
@@ -1639,7 +1639,7 @@ class CapsuleCollider(Collider):
     m_GameObject: PPtr[GameObject]
     m_Height: float
     m_IsTrigger: bool
-    m_Material: Union[PPtr[PhysicsMaterial], PPtr[PhysicMaterial]]
+    m_Material: Union[PPtr[PhysicMaterial], PPtr[PhysicsMaterial]]
     m_Radius: float
     m_ExcludeLayers: Optional[BitField] = None
     m_IncludeLayers: Optional[BitField] = None
@@ -1662,7 +1662,7 @@ class CharacterController(Collider):
     m_IncludeLayers: Optional[BitField] = None
     m_IsTrigger: Optional[bool] = None
     m_LayerOverridePriority: Optional[int] = None
-    m_Material: Optional[Union[PPtr[PhysicsMaterial], PPtr[PhysicMaterial]]] = None
+    m_Material: Optional[Union[PPtr[PhysicMaterial], PPtr[PhysicsMaterial]]] = None
     m_ProvidesContacts: Optional[bool] = None
 
 
@@ -1672,7 +1672,7 @@ class MeshCollider(Collider):
     m_Enabled: bool
     m_GameObject: PPtr[GameObject]
     m_IsTrigger: bool
-    m_Material: Union[PPtr[PhysicsMaterial], PPtr[PhysicMaterial]]
+    m_Material: Union[PPtr[PhysicMaterial], PPtr[PhysicsMaterial]]
     m_Mesh: PPtr[Mesh]
     m_CookingOptions: Optional[int] = None
     m_ExcludeLayers: Optional[BitField] = None
@@ -1700,7 +1700,7 @@ class SphereCollider(Collider):
     m_Enabled: bool
     m_GameObject: PPtr[GameObject]
     m_IsTrigger: bool
-    m_Material: Union[PPtr[PhysicsMaterial], PPtr[PhysicMaterial]]
+    m_Material: Union[PPtr[PhysicMaterial], PPtr[PhysicsMaterial]]
     m_Radius: float
     m_ExcludeLayers: Optional[BitField] = None
     m_IncludeLayers: Optional[BitField] = None
@@ -1719,7 +1719,7 @@ class TerrainCollider(Collider):
     m_IncludeLayers: Optional[BitField] = None
     m_IsTrigger: Optional[bool] = None
     m_LayerOverridePriority: Optional[int] = None
-    m_Material: Optional[Union[PPtr[PhysicsMaterial], PPtr[PhysicMaterial]]] = None
+    m_Material: Optional[Union[PPtr[PhysicMaterial], PPtr[PhysicsMaterial]]] = None
     m_ProvidesContacts: Optional[bool] = None
 
 
@@ -2034,7 +2034,7 @@ class ParticleSystem(Component):
     lengthInSec: float
     looping: bool
     m_GameObject: PPtr[GameObject]
-    moveWithTransform: Union[int, bool]
+    moveWithTransform: Union[bool, int]
     playOnAwake: bool
     prewarm: bool
     randomSeed: int
@@ -2083,7 +2083,7 @@ class BillboardRenderer(Renderer):
     m_LightmapTilingOffsetDynamic: Vector4f
     m_Materials: List[PPtr[Material]]
     m_ProbeAnchor: PPtr[Transform]
-    m_ReceiveShadows: Union[int, bool]
+    m_ReceiveShadows: Union[bool, int]
     m_ReflectionProbeUsage: int
     m_SortingOrder: int
     m_StaticBatchRoot: PPtr[Transform]
@@ -2130,7 +2130,7 @@ class ClothRenderer(Renderer):
 
 @unitypy_define
 class LineRenderer(Renderer):
-    m_CastShadows: Union[int, bool]
+    m_CastShadows: Union[bool, int]
     m_Enabled: bool
     m_GameObject: PPtr[GameObject]
     m_LightmapIndex: int
@@ -2138,7 +2138,7 @@ class LineRenderer(Renderer):
     m_Materials: List[PPtr[Material]]
     m_Parameters: LineParameters
     m_Positions: List[Vector3f]
-    m_ReceiveShadows: Union[int, bool]
+    m_ReceiveShadows: Union[bool, int]
     m_StaticBatchRoot: PPtr[Transform]
     m_UseWorldSpace: bool
     m_ApplyActiveColorSpace: Optional[bool] = None
@@ -2205,13 +2205,13 @@ class RendererFake(LineRenderer):
 
 @unitypy_define
 class MeshRenderer(Renderer):
-    m_CastShadows: Union[int, bool]
+    m_CastShadows: Union[bool, int]
     m_Enabled: bool
     m_GameObject: PPtr[GameObject]
     m_LightmapIndex: int
     m_LightmapTilingOffset: Vector4f
     m_Materials: List[PPtr[Material]]
-    m_ReceiveShadows: Union[int, bool]
+    m_ReceiveShadows: Union[bool, int]
     m_StaticBatchRoot: PPtr[Transform]
     m_AdditionalVertexStreams: Optional[PPtr[Mesh]] = None
     m_DynamicOccludee: Optional[int] = None
@@ -2291,7 +2291,7 @@ class PanelRenderer(Renderer):
 class ParticleRenderer(Renderer):
     UV_Animation: UVAnimation
     m_CameraVelocityScale: float
-    m_CastShadows: Union[int, bool]
+    m_CastShadows: Union[bool, int]
     m_Enabled: bool
     m_GameObject: PPtr[GameObject]
     m_LengthScale: float
@@ -2299,7 +2299,7 @@ class ParticleRenderer(Renderer):
     m_LightmapTilingOffset: Vector4f
     m_Materials: List[PPtr[Material]]
     m_MaxParticleSize: float
-    m_ReceiveShadows: Union[int, bool]
+    m_ReceiveShadows: Union[bool, int]
     m_StaticBatchRoot: PPtr[Transform]
     m_StretchParticles: int
     m_VelocityScale: float
@@ -2324,7 +2324,7 @@ class ParticleRenderer(Renderer):
 @unitypy_define
 class ParticleSystemRenderer(Renderer):
     m_CameraVelocityScale: float
-    m_CastShadows: Union[int, bool]
+    m_CastShadows: Union[bool, int]
     m_Enabled: bool
     m_GameObject: PPtr[GameObject]
     m_LengthScale: float
@@ -2333,7 +2333,7 @@ class ParticleSystemRenderer(Renderer):
     m_Materials: List[PPtr[Material]]
     m_MaxParticleSize: float
     m_Mesh: PPtr[Mesh]
-    m_ReceiveShadows: Union[int, bool]
+    m_ReceiveShadows: Union[bool, int]
     m_RenderMode: int
     m_SortMode: int
     m_SortingFudge: float
@@ -2432,7 +2432,7 @@ class RenderAs2D(Renderer):
 class SkinnedMeshRenderer(Renderer):
     m_AABB: AABB
     m_Bones: List[PPtr[Transform]]
-    m_CastShadows: Union[int, bool]
+    m_CastShadows: Union[bool, int]
     m_DirtyAABB: bool
     m_Enabled: bool
     m_GameObject: PPtr[GameObject]
@@ -2441,7 +2441,7 @@ class SkinnedMeshRenderer(Renderer):
     m_Materials: List[PPtr[Material]]
     m_Mesh: PPtr[Mesh]
     m_Quality: int
-    m_ReceiveShadows: Union[int, bool]
+    m_ReceiveShadows: Union[bool, int]
     m_StaticBatchRoot: PPtr[Transform]
     m_UpdateWhenOffscreen: bool
     m_BlendShapeWeights: Optional[List[float]] = None
@@ -2523,14 +2523,14 @@ class SpriteMask(Renderer):
 
 @unitypy_define
 class SpriteRenderer(Renderer):
-    m_CastShadows: Union[int, bool]
+    m_CastShadows: Union[bool, int]
     m_Color: ColorRGBA
     m_Enabled: bool
     m_GameObject: PPtr[GameObject]
     m_LightmapIndex: int
     m_LightmapTilingOffset: Vector4f
     m_Materials: List[PPtr[Material]]
-    m_ReceiveShadows: Union[int, bool]
+    m_ReceiveShadows: Union[bool, int]
     m_SortingOrder: int
     m_Sprite: PPtr[Sprite]
     m_StaticBatchRoot: PPtr[Transform]
@@ -2654,14 +2654,14 @@ class TilemapRenderer(Renderer):
 @unitypy_define
 class TrailRenderer(Renderer):
     m_Autodestruct: bool
-    m_CastShadows: Union[int, bool]
+    m_CastShadows: Union[bool, int]
     m_Enabled: bool
     m_GameObject: PPtr[GameObject]
     m_LightmapIndex: int
     m_LightmapTilingOffset: Vector4f
     m_Materials: List[PPtr[Material]]
     m_MinVertexDistance: float
-    m_ReceiveShadows: Union[int, bool]
+    m_ReceiveShadows: Union[bool, int]
     m_StaticBatchRoot: PPtr[Transform]
     m_Time: float
     m_ApplyActiveColorSpace: Optional[bool] = None
@@ -2881,7 +2881,7 @@ class WorldParticleCollider(Component):
 @unitypy_define
 class GameObject(EditorExtension):
     m_Component: Union[List[ComponentPair], List[Tuple[int, PPtr[Component]]]]
-    m_IsActive: Union[int, bool]
+    m_IsActive: Union[bool, int]
     m_Layer: int
     m_Name: str
     m_Tag: int
@@ -3951,7 +3951,7 @@ class TextureImporter(AssetImporter):
     m_FlipbookRows: Optional[int] = None
     m_IgnoreMasterTextureLimit: Optional[int] = None
     m_IgnoreMipmapLimit: Optional[int] = None
-    m_IgnorePngGamma: Optional[Union[int, bool]] = None
+    m_IgnorePngGamma: Optional[Union[bool, int]] = None
     m_InternalIDToNameTable: Optional[List[Tuple[Tuple[int, int], str]]] = None
     m_LinearTexture: Optional[int] = None
     m_MaxTextureSizeSet: Optional[int] = None
@@ -4035,7 +4035,7 @@ class VideoClipImporter(AssetImporter):
     m_Name: str
     m_Output: VideoClipImporterOutput
     m_StartFrame: int
-    m_TargetSettings: Union[List[Tuple[str, VideoClipImporterTargetSettings]], List[Tuple[int, VideoClipImporterTargetSettings]]]
+    m_TargetSettings: Union[List[Tuple[int, VideoClipImporterTargetSettings]], List[Tuple[str, VideoClipImporterTargetSettings]]]
     m_UserData: str
     m_AudioImportMode: Optional[int] = None
     m_ExternalObjects: Optional[List[Tuple[SourceAssetIdentifier, PPtr[Object]]]] = None
@@ -4566,7 +4566,7 @@ class Material(NamedObject):
     m_EnableInstancingVariants: Optional[bool] = None
     m_InvalidKeywords: Optional[List[str]] = None
     m_LightmapFlags: Optional[int] = None
-    m_ShaderKeywords: Optional[Union[str, List[str]]] = None
+    m_ShaderKeywords: Optional[Union[List[str], str]] = None
     m_ValidKeywords: Optional[List[str]] = None
     stringTagMap: Optional[List[Tuple[str, str]]] = None
 
@@ -4593,7 +4593,7 @@ class ProceduralMaterial(Material):
     m_LoadingBehavior: Optional[int] = None
     m_MaximumSize: Optional[int] = None
     m_PrototypeName: Optional[str] = None
-    m_ShaderKeywords: Optional[Union[str, List[str]]] = None
+    m_ShaderKeywords: Optional[Union[List[str], str]] = None
     m_SubstancePackage: Optional[PPtr[SubstanceArchive]] = None
     m_Textures: Optional[List[PPtr[ProceduralTexture]]] = None
     m_ValidKeywords: Optional[List[str]] = None
@@ -4831,8 +4831,8 @@ class AnimatorOverrideController(RuntimeAnimatorController):
 class Shader(NamedObject):
     m_Name: str
     compressedBlob: Optional[List[int]] = None
-    compressedLengths: Optional[Union[List[int], List[List[int]]]] = None
-    decompressedLengths: Optional[Union[List[int], List[List[int]]]] = None
+    compressedLengths: Optional[Union[List[List[int]], List[int]]] = None
+    decompressedLengths: Optional[Union[List[List[int]], List[int]]] = None
     decompressedSize: Optional[int] = None
     m_AssetGUID: Optional[GUID] = None
     m_AssetLocalIdentifierInFile: Optional[int] = None
@@ -4843,7 +4843,7 @@ class Shader(NamedObject):
     m_Script: Optional[str] = None
     m_ShaderIsBaked: Optional[bool] = None
     m_SubProgramBlob: Optional[List[int]] = None
-    offsets: Optional[Union[List[int], List[List[int]]]] = None
+    offsets: Optional[Union[List[List[int]], List[int]]] = None
     platforms: Optional[List[int]] = None
     stageCounts: Optional[List[int]] = None
 
@@ -4962,7 +4962,7 @@ class MonoScript(TextAsset):
     m_ExecutionOrder: int
     m_Name: str
     m_Namespace: str
-    m_PropertiesHash: Union[int, Hash128]
+    m_PropertiesHash: Union[Hash128, int]
     m_IsEditorScript: Optional[bool] = None
 
 
@@ -5314,7 +5314,7 @@ class VisualEffectSubgraphOperator(VisualEffectSubgraph):
 @unitypy_define
 class VisualEffectResource(NamedObject):
     m_Graph: PPtr[MonoBehaviour]
-    m_Infos: Union[VisualEffectSettings, VisualEffectInfo]
+    m_Infos: Union[VisualEffectInfo, VisualEffectSettings]
     m_Name: str
     m_ShaderSources: Optional[List[VFXShaderSourceDesc]] = None
     m_Systems: Optional[List[VFXEditorSystemDesc]] = None
@@ -5656,7 +5656,7 @@ class BuildSettings(GlobalGameManager):
     m_AuthToken: Optional[str] = None
     m_GraphicsAPIs: Optional[List[int]] = None
     preloadedPlugins: Optional[List[str]] = None
-    runtimeClassHashes: Optional[Union[List[Tuple[int, int]], List[Tuple[int, Hash128]]]] = None
+    runtimeClassHashes: Optional[Union[List[Tuple[int, Hash128]], List[Tuple[int, int]]]] = None
     scenes: Optional[List[str]] = None
     scriptHashes: Optional[List[Tuple[Hash128, Hash128]]] = None
     usesOnMouseEvents: Optional[bool] = None
@@ -5816,7 +5816,7 @@ class Physics2DSettings(GlobalGameManager):
 @unitypy_define
 class PhysicsManager(GlobalGameManager):
     m_BounceThreshold: float
-    m_DefaultMaterial: Union[PPtr[PhysicsMaterial], PPtr[PhysicMaterial]]
+    m_DefaultMaterial: Union[PPtr[PhysicMaterial], PPtr[PhysicsMaterial]]
     m_Gravity: Vector3f
     m_LayerCollisionMatrix: List[int]
     m_AutoSimulation: Optional[bool] = None
@@ -6225,7 +6225,7 @@ class TagManager(GlobalGameManager):
 
 @unitypy_define
 class TimeManager(GlobalGameManager):
-    Fixed_Timestep: Union[float, RationalTime]
+    Fixed_Timestep: Union[RationalTime, float]
     Maximum_Allowed_Timestep: float
     m_TimeScale: float
     Maximum_Particle_Timestep: Optional[float] = None
@@ -6344,7 +6344,7 @@ class RenderSettings(LevelGameManager):
     m_AmbientProbe: Optional[SphericalHarmonicsL2] = None
     m_AmbientProbeInGamma: Optional[SphericalHarmonicsL2] = None
     m_AmbientSkyColor: Optional[ColorRGBA] = None
-    m_CustomReflection: Optional[Union[PPtr[Texture], PPtr[Cubemap]]] = None
+    m_CustomReflection: Optional[Union[PPtr[Cubemap], PPtr[Texture]]] = None
     m_DefaultReflectionMode: Optional[int] = None
     m_DefaultReflectionResolution: Optional[int] = None
     m_FlareFadeSpeed: Optional[float] = None
@@ -6685,7 +6685,7 @@ class Asset:
     type: int
     assetBundleIndex: Optional[int] = None
     digest: Optional[MdFour] = None
-    guidOfPathLocationDependencies: Optional[Union[List[Tuple[str, GUID]], List[Tuple[GUID, str]]]] = None
+    guidOfPathLocationDependencies: Optional[Union[List[Tuple[GUID, str]], List[Tuple[str, GUID]]]] = None
     hash: Optional[Union[Hash128, MdFour]] = None
     hashOfImportedAssetDependencies: Optional[List[GUID]] = None
     hashOfSourceAssetDependencies: Optional[List[GUID]] = None
@@ -7304,8 +7304,8 @@ class Clip:
 
 @unitypy_define
 class ClipAnimationInfo:
-    firstFrame: Union[int, float]
-    lastFrame: Union[int, float]
+    firstFrame: Union[float, int]
+    lastFrame: Union[float, int]
     loop: bool
     name: str
     wrapMode: int
@@ -7516,7 +7516,7 @@ class ComputeShaderBuiltinSampler:
 @unitypy_define
 class ComputeShaderCB:
     byteSize: int
-    name: Union[str, FastPropertyName]
+    name: Union[FastPropertyName, str]
     params: List[ComputeShaderParam]
 
 
@@ -7529,7 +7529,7 @@ class ComputeShaderKernel:
     outBuffers: List[ComputeShaderResource]
     textures: List[ComputeShaderResource]
     cbVariantIndices: Optional[List[int]] = None
-    name: Optional[Union[str, FastPropertyName]] = None
+    name: Optional[Union[FastPropertyName, str]] = None
     requirements: Optional[int] = None
     threadGroupSize: Optional[List[int]] = None
 
@@ -7550,7 +7550,7 @@ class ComputeShaderKernelParent:
 class ComputeShaderParam:
     arraySize: int
     colCount: int
-    name: Union[str, FastPropertyName]
+    name: Union[FastPropertyName, str]
     offset: int
     rowCount: int
     type: int
@@ -7568,9 +7568,9 @@ class ComputeShaderPlatformVariant:
 @unitypy_define
 class ComputeShaderResource:
     bindPoint: int
-    name: Union[str, FastPropertyName]
+    name: Union[FastPropertyName, str]
     counter: Optional[ComputeBufferCounter] = None
-    generatedName: Optional[Union[str, FastPropertyName]] = None
+    generatedName: Optional[Union[FastPropertyName, str]] = None
     resType: Optional[int] = None
     samplerBindPoint: Optional[int] = None
     secondaryBindPoint: Optional[int] = None
@@ -8580,12 +8580,12 @@ class JointTranslationLimits2D:
 
 @unitypy_define
 class Keyframe:
-    inSlope: Union[Vector3f, float, Quaternionf]
-    outSlope: Union[Vector3f, float, Quaternionf]
+    inSlope: Union[Quaternionf, Vector3f, float]
+    outSlope: Union[Quaternionf, Vector3f, float]
     time: float
-    value: Union[Vector3f, float, Quaternionf]
-    inWeight: Optional[Union[Vector3f, float, Quaternionf]] = None
-    outWeight: Optional[Union[Vector3f, float, Quaternionf]] = None
+    value: Union[Quaternionf, Vector3f, float]
+    inWeight: Optional[Union[Quaternionf, Vector3f, float]] = None
+    outWeight: Optional[Union[Quaternionf, Vector3f, float]] = None
     weightedMode: Optional[int] = None
 
 
@@ -8647,7 +8647,7 @@ class LibraryRepresentation:
     flags: Optional[int] = None
     guid: Optional[GUID] = None
     localIdentifier: Optional[int] = None
-    object: Optional[Union[PPtr[Object], PPtr[EditorExtension]]] = None
+    object: Optional[Union[PPtr[EditorExtension], PPtr[Object]]] = None
     path: Optional[str] = None
 
 
@@ -8900,9 +8900,9 @@ class MinMaxCurve:
 @unitypy_define
 class MinMaxGradient:
     maxColor: ColorRGBA
-    maxGradient: Union[GradientNEW, Gradient]
+    maxGradient: Union[Gradient, GradientNEW]
     minColor: ColorRGBA
-    minGradient: Union[GradientNEW, Gradient]
+    minGradient: Union[Gradient, GradientNEW]
     minMaxState: int
 
 
@@ -8993,12 +8993,12 @@ class NavMeshBuildSettings:
     agentTypeID: int
     cellSize: float
     ledgeDropHeight: float
-    manualCellSize: Union[int, bool]
-    manualTileSize: Union[int, bool]
+    manualCellSize: Union[bool, int]
+    manualTileSize: Union[bool, int]
     maxJumpAcrossDistance: float
     minRegionArea: float
     tileSize: int
-    accuratePlacement: Optional[Union[int, bool]] = None
+    accuratePlacement: Optional[Union[bool, int]] = None
     buildHeightMesh: Optional[int] = None
     debug: Optional[NavMeshBuildDebugSettings] = None
     keepTiles: Optional[int] = None
@@ -9130,7 +9130,7 @@ class Oculus:
 
 @unitypy_define
 class OffsetPtr:
-    data: Union[BlendTreeConstant, ConditionConstant, Blend2dDataConstant, SkeletonMask, Clip, LayerConstant, StateMachineConstant, Human, BlendDirectDataConstant, Blend1dDataConstant, StateConstant, SelectorStateConstant, SkeletonPose, Hand, TransitionConstant, HumanLayerConstant, ValueArray, BlendTreeNodeConstant, SelectorTransitionConstant, ValueArrayConstant, Skeleton]
+    data: Union[Blend1dDataConstant, Blend2dDataConstant, BlendDirectDataConstant, BlendTreeConstant, BlendTreeNodeConstant, Clip, ConditionConstant, Hand, Human, HumanLayerConstant, LayerConstant, SelectorStateConstant, SelectorTransitionConstant, Skeleton, SkeletonMask, SkeletonPose, StateConstant, StateMachineConstant, TransitionConstant, ValueArray, ValueArrayConstant]
 
 
 @unitypy_define
@@ -9341,7 +9341,7 @@ class Polygon2D(ABC):
 @unitypy_define
 class PrefabModification:
     m_Modifications: List[PropertyModification]
-    m_RemovedComponents: Union[List[PPtr[Object]], List[PPtr[Component]]]
+    m_RemovedComponents: Union[List[PPtr[Component]], List[PPtr[Object]]]
     m_TransformParent: PPtr[Transform]
     m_AddedComponents: Optional[List[AddedComponent]] = None
     m_AddedGameObjects: Optional[List[AddedGameObject]] = None
@@ -9389,7 +9389,7 @@ class ProceduralMaterialInformation:
 class ProceduralTextureAssignment:
     baseUID: int
     material: PPtr[ProceduralMaterial]
-    shaderProp: Union[str, FastPropertyName]
+    shaderProp: Union[FastPropertyName, str]
 
 
 @unitypy_define
@@ -10032,7 +10032,7 @@ class SceneDataContainer:
 @unitypy_define
 class SceneIdentifier:
     guid: GUID
-    handle: Union[int, UnitySceneHandle]
+    handle: Union[UnitySceneHandle, int]
 
 
 @unitypy_define
@@ -10186,7 +10186,7 @@ class SerializedShaderDependency:
 
 @unitypy_define
 class SerializedShaderFloatValue:
-    name: Union[str, FastPropertyName]
+    name: Union[FastPropertyName, str]
     val: float
 
 
@@ -10240,7 +10240,7 @@ class SerializedShaderState:
 
 @unitypy_define
 class SerializedShaderVectorValue:
-    name: Union[str, FastPropertyName]
+    name: Union[FastPropertyName, str]
     w: SerializedShaderFloatValue
     x: SerializedShaderFloatValue
     y: SerializedShaderFloatValue
@@ -10326,10 +10326,10 @@ class ShapeModule:
     enabled: bool
     m_Mesh: PPtr[Mesh]
     placementMode: int
-    radius: Union[float, MultiModeParameter]
+    radius: Union[MultiModeParameter, float]
     type: int
     alignToDirection: Optional[bool] = None
-    arc: Optional[Union[float, MultiModeParameter]] = None
+    arc: Optional[Union[MultiModeParameter, float]] = None
     boxThickness: Optional[Vector3f] = None
     boxX: Optional[float] = None
     boxY: Optional[float] = None
@@ -11303,7 +11303,7 @@ class TileAnimationData:
 
 @unitypy_define
 class TilemapRefCountedData:
-    m_Data: Union[Matrix4x4f, PPtr[Object], PPtr[Sprite], PPtr[GameObject], ColorRGBA]
+    m_Data: Union[ColorRGBA, Matrix4x4f, PPtr[GameObject], PPtr[Object], PPtr[Sprite]]
     m_RefCount: int
 
 
@@ -11472,8 +11472,8 @@ class UnityAnalyticsSettings:
 
 @unitypy_define
 class UnityPropertySheet:
-    m_Colors: Union[List[Tuple[str, ColorRGBA]], List[Tuple[FastPropertyName, ColorRGBA]]]
-    m_Floats: Union[List[Tuple[str, float]], List[Tuple[FastPropertyName, float]]]
+    m_Colors: Union[List[Tuple[FastPropertyName, ColorRGBA]], List[Tuple[str, ColorRGBA]]]
+    m_Floats: Union[List[Tuple[FastPropertyName, float]], List[Tuple[str, float]]]
     m_TexEnvs: Union[List[Tuple[FastPropertyName, UnityTexEnv]], List[Tuple[str, UnityTexEnv]]]
     m_Ints: Optional[List[Tuple[str, int]]] = None
 
@@ -11545,13 +11545,13 @@ class VFXEditorTaskDesc:
 class VFXEntryExposed:
     m_Name: str
     m_Overridden: bool
-    m_Value: Union[int, Vector4f, Matrix4x4f, PPtr[NamedObject], PPtr[Object], Vector2f, Gradient, Vector3f, float, AnimationCurve, bool]
+    m_Value: Union[AnimationCurve, Gradient, Matrix4x4f, PPtr[NamedObject], PPtr[Object], Vector2f, Vector3f, Vector4f, bool, float, int]
 
 
 @unitypy_define
 class VFXEntryExpressionValue:
     m_ExpressionIndex: int
-    m_Value: Union[int, Vector4f, Matrix4x4f, PPtr[NamedObject], PPtr[Object], Vector2f, Gradient, Vector3f, float, AnimationCurve, bool]
+    m_Value: Union[AnimationCurve, Gradient, Matrix4x4f, PPtr[NamedObject], PPtr[Object], Vector2f, Vector3f, Vector4f, bool, float, int]
 
 
 @unitypy_define

@@ -140,7 +140,7 @@ class NodeClassField:
         if len(self.types) == 1:
             typ = next(iter(self.types))
         else:
-            typ = f"Union[{', '.join(self.types)}]"
+            typ = f"Union[{', '.join(sorted(self.types))}]"
 
         if self.optional:
             return f"    {self.clean_name}: Optional[{typ}] = None"
